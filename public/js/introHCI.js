@@ -27,6 +27,30 @@ function addProjectDetails(e) {
 	var idNumber = projectID.substr('project'.length);
 
 	console.log("User clicked on project " + idNumber);
+
+	/* slide 41 */
+	var url = "/project/" + idNumber;
+	$.get(url, callbackProj);
+	console.log("calling url " + url);
+}
+
+/* slide 41 */
+function callbackProj (result) {
+	console.log(result);
+
+	/* slide 43-44 */
+	var projID = "project" + $(result).attr('id');
+	var projImg = $(result).attr('image');
+	var projTitle = $(result).attr('title');
+	var projDate = $(result).attr('date');
+	var projSumm = $(result).attr('summary');
+
+	var htmlString = '<img src=' + projImg + ' class="detailsImage">' + 
+	'<h3>' + projTitle + '</h3>' + 
+	'<h4>' + projDate + '</h4>' + 
+	'<p>' + projSumm + '</p>';
+
+	$('#' + projID + ' .details').html(htmlString);
 }
 
 /*
@@ -35,4 +59,19 @@ function addProjectDetails(e) {
  */
 function randomizeColors(e) {
 	console.log("User clicked on color button");
+
+	/* slide 47 */
+	$.get("/palette", callbackColor);
+}
+
+function callbackColor (result) {
+	var colors = $(result).attr('colors');
+	var hexVals = $(colors).attr('hex');
+	//console.log(hexVals);
+
+	$('body').css('background-color', hexVals[0]);
+	$('.thumbnail').css('background-color', hexVals[1]);
+	$('h1, h2, h3, h4, h5, h5').css('color', hexVals[2]);
+	$('p').css('color', hexVals[3]);
+	$('.project img').css('opacity', .75);
 }
